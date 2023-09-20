@@ -1,8 +1,10 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
-import { GameDetail } from "./components/GameDetail";
+import GameCard from "./components/GameCard";
 import { Grid, GridItem, Show } from "@chakra-ui/react";
+import NavBar from "./components/NavBar";
+import GameGrid from "./components/GameGrid";
 
 function App() {
   return (
@@ -12,16 +14,15 @@ function App() {
         lg: `"nav nav" "aside main"`,
       }}
     >
-      <GridItem area={"nav"} bg={"coral"}>
-        nav
+      <GridItem area={"nav"}>
+        <NavBar></NavBar>
       </GridItem>
       <Show above="lg">
-        <GridItem area={"aside"} bg={"gold"}>
-          Aside
-        </GridItem>
+        <GridItem area={"aside"}>Aside</GridItem>
       </Show>
-      <GridItem area={"main"} bg={"dodgerblue"}>
-        Main
+      <GridItem area={"main"}>
+        <h1>Games</h1>
+        <GameGrid />
       </GridItem>
     </Grid>
   );
