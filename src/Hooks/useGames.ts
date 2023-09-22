@@ -1,12 +1,6 @@
-import { useState, useEffect } from "react";
-import apiClient from "../services/api-client";
-import { CanceledError } from "axios";
-
-export interface Platform {
-    id: number;
-    name: string;
-    slug: string;
-}
+import { Platform } from "./UsePlatforms";
+import useData from "./useData";
+import { Genre } from "./useGenres";
 
 export interface Game {
     id: number;
@@ -15,36 +9,14 @@ export interface Game {
     parent_platforms: {platform: Platform}[]
     metacritic: number;
   }
-  interface GameResponse {
-    count: number;
-    results: Game[];
-  }
 
-const useGames = () => {
-    const [games, setGames] = useState<Game[]>([]);
-    const [error, setError] = useState("");
-    const [isLoading, setLoading] = useState(false);
-  
-    useEffect(() => {
-
-        const controller = new AbortController();
-        setLoading(true);
-      apiClient
-        .get<GameResponse>("games", {signal: controller.signal})
-        .then((res) => {
-            setGames(res.data.results);
-            setLoading(false)
-        })
-        .catch((err) => {
-            if(err instanceof CanceledError) return;
-            setError(err.message);
-            setLoading(false);
-        });
-
-        return () => controller.abort();
-    }, []);
-
-    return { games, error, isLoading};
+const useGames = (selectedGenre: Genre | null, selectedPlatform: Platform | null) => {
+    return useData<Game>('games', { 
+        params: { 
+            genres: selectedGenre?.id, 
+            platforms: selectedPlatform?.id
+        }
+    }, [selectedGenre?.id, selectedPlatform?.id]);
 }
 
 export default useGames;
