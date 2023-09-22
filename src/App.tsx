@@ -1,7 +1,5 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
-import GameCard from "./components/GameCard";
 import { Grid, GridItem, Show, HStack } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
@@ -14,6 +12,7 @@ import OrderSelector from "./components/OrderSelector";
 export interface GameQuery {
   genre: Genre | null;
   platform: Platform | null;
+  order: string;
 }
 
 function App() {
@@ -48,7 +47,10 @@ function App() {
             }
             selectedPlatform={gameQuery.platform}
           />
-          <OrderSelector />
+          <OrderSelector
+            onSelectSortOrder={(order) => setGameQuery({ ...gameQuery, order })}
+            selectedOrder={gameQuery.order}
+          />
         </HStack>
         <GameGrid gameQuery={gameQuery} />
       </GridItem>
