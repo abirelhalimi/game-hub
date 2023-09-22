@@ -1,15 +1,20 @@
 import { HStack, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import ColorModeSwitch from "./ColorModeSwitch";
+import Search from "./Search";
 
-const NavBar = () => {
+interface Props {
+  onSearch: (text: string) => void;
+}
+
+const NavBar = ({ onSearch }: Props) => {
   return (
-    <HStack justifyContent={"space-between"} paddingX={2} paddingY={5}>
+    <HStack paddingX={2} paddingY={5}>
       <Image
         src="https://raw.githubusercontent.com/GameHub88/.github/main/profile/logo.png"
         boxSize="60px"
       ></Image>
-      <Text>Game Hub</Text>
+      <Search onSearch={onSearch} />
       <ColorModeSwitch></ColorModeSwitch>
     </HStack>
   );
